@@ -1,0 +1,10 @@
+DELETE FROM PLAYS_IN;
+DELETE FROM PERFORMER;
+DELETE FROM performance;
+DELETE FROM has_composed;
+DELETE FROM composition;
+DELETE FROM concert;
+DELETE FROM composer;
+DELETE FROM band;
+DELETE FROM musician;
+DELETE FROM place;
