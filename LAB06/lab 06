@@ -1,0 +1,414 @@
+CREATE TABLE Carrera(
+CODIGO VARCHAR(20) NOT NULL,
+NOMBRE VARCHAR(30)NOT NULL,
+PAIS VARCHAR (15)NOT NULL,
+CATEGORIA NUMBER(1)NOT NULL,
+PERIODICIDAD VARCHAR(30)NOT NULL,
+NOMBREVERSION VARCHAR(5));
+
+
+CREATE TABLE Punto(
+ORDEN NUMBER(2) NOT NULL,
+NOMBRE VARCHAR(10)NOT NULL,
+TIPO VARCHAR(1),
+DISTANCIA NUMBER(10,2)NOT NULL,
+TIEMPOLIMITE NUMBER(9),
+CODIGOCA VARCHAR(20) NOT NULL,
+NOMBRESEGMENTO VARCHAR(30)NOT NULL);
+
+
+CREATE TABLE PropiedadDe(
+PORCENTAJE NUMBER(2)NOT NULL,
+CODIGOCA VARCHAR(20) NOT NULL,
+IDMIEMBRO NUMBER(5) NOT NULL);
+
+CREATE TABLE Miembro(
+ID NUMBER(15)NOT NULL,
+IDT VARCHAR(2)NOT NULL,
+IDN NUMBER(15)NOT NULL,
+PAIS VARCHAR(50)NOT NULL,
+CORREO VARCHAR(40)NOT NULL);
+
+
+CREATE TABLE Persona(
+NOMBRE VARCHAR(80)NOT NULL,
+IDMIEMBRO NUMBER(15)NOT NULL,
+RAZONSOCIAL VARCHAR(50)NOT NULL);
+
+
+CREATE TABLE Empresa(
+RAZONSOCIAL VARCHAR(30)NOT NULL,
+IDMIEMBRO NUMBER(15)
+);
+
+
+CREATE TABLE Ciclista(
+NACIMIENTO DATE NOT NULL,
+CATEGORIA NUMBER(1) NOT NULL,
+IDMIEMBRO NUMBER(5)NOT NULL,
+NUMEROREGISTRO NUMBER(3)NOT NULL);
+
+
+CREATE TABLE Participa(
+IDMIEMBRO NUMBER(5)NOT NULL,
+NOMBREVERSION VARCHAR(5)NOT NULL
+);
+
+CREATE TABLE Organizado(
+RAZONSOCIAL VARCHAR(30)NOT NULL,
+NOMBREVERSION VARCHAR(5)NOT NULL
+);
+
+
+CREATE TABLE Registro(
+NUMERO NUMBER(3)NOT NULL,
+FECHA DATE NOT NULL,
+TIEMPO NUMBER(9) NOT NULL,
+POSICION NUMBER(5)NOT NULL,
+REVISION VARCHAR(50),
+DIFICULTAD VARCHAR(1)NOT NULL,
+FOTO VARCHAR(50),
+COMENTARIO VARCHAR(30));
+
+CREATE TABLE Foto(
+NUMEROREGISTRO NUMBER(3)NOT NULL,
+FOTO VARCHAR(15)NOT NULL);
+
+CREATE TABLE Version(
+NOMBRE VARCHAR (5)NOT NULL,
+FECHA DATE NOT NULL,
+NOMBRESEGMENTO VARCHAR(30)NOT NULL,
+ID_MIEMBRO NUMBER(5)NOT NULL);
+
+
+CREATE TABLE Segmento(
+NOMBRE VARCHAR(30)NOT NULL,
+TIPO VARCHAR(1)NOT NULL,
+NUMEROREGISTRO NUMBER(3)NOT NULL); 
+----------------------------------------------------Primarias---------------------------------------------------------
+ALTER TABLE CARRERA ADD CONSTRAINT PK_CARRERA PRIMARY KEY (CODIGO);
+ALTER TABLE PUNTO ADD CONSTRAINT PK_PUNTO PRIMARY KEY (CODIGOCA);
+ALTER TABLE MIEMBRO ADD CONSTRAINT PK_MIEMBRO PRIMARY KEY(ID);
+ALTER TABLE PERSONA ADD CONSTRAINT PK_PERSONA PRIMARY KEY(IDMIEMBRO);
+ALTER TABLE EMPRESA ADD CONSTRAINT PK_EMPRESA PRIMARY KEY (RAZONSOCIAL);
+ALTER TABLE CICLISTA ADD CONSTRAINT PF_CICLISTA PRIMARY KEY (IDMIEMBRO);
+ALTER TABLE REGISTRO ADD CONSTRAINT PK_REGISTRA PRIMARY KEY (NUMERO);
+ALTER TABLE VERSION ADD CONSTRAINT PF_VERSION PRIMARY KEY (NOMBRE);
+ALTER TABLE SEGMENTO ADD CONSTRAINT PF_NOMBRE PRIMARY KEY (NOMBRE);
+---------------------------------------------------------Unicas-----------------------------------------------------------------------
+ALTER TABLE REGISTRO ADD CONSTRAINT UK_REGISTRO UNIQUE(COMENTARIO);
+---------------------------------------------------------Foraneas---------------------------------------------------------------------
+ALTER TABLE CARRERA ADD CONSTRAINT FK_CARRERA_VERSION FOREIGN KEY(NOMBREVERSION)REFERENCES VERSION(NOMBRE);
+ALTER TABLE PUNTO ADD CONSTRAINT FK_PUNTO_CARRERA FOREIGN KEY (CODIGOCA)REFERENCES CARRERA(CODIGO);
+ALTER TABLE PUNTO ADD CONSTRAINT FK_PUNTO_SEGMENTO FOREIGN KEY (NOMBRESEGMENTO)REFERENCES SEGMENTO(NOMBRE);
+ALTER TABLE PROPIEDADDE ADD CONSTRAINT FK_PROPIEDAD_CARRERA FOREIGN KEY (CODIGOCA)REFERENCES CARRERA (CODIGO);
+ALTER TABLE PROPIEDADDE ADD CONSTRAINT FK_PROPIEDAD_MIEMBRO FOREIGN KEY (IDMIEMBRO) REFERENCES MIEMBRO(ID);
+ALTER TABLE EMPRESA ADD CONSTRAINT FK_EMPRESA_PERSONA FOREIGN KEY(IDMIEMBRO)REFERENCES PERSONA(IDMIEMBRO);
+ALTER TABLE EMPRESA ADD CONSTRAINT FK_EMPRESA_MIEMBRO FOREIGN KEY (IDMIEMBRO) REFERENCES MIEMBRO(ID);
+ALTER TABLE PERSONA ADD CONSTRAINT FK_PERSONA_MIEMBRO FOREIGN KEY(IDMIEMBRO)REFERENCES MIEMBRO(ID);
+ALTER TABLE CICLISTA ADD CONSTRAINT FK_CICLISTA_PERSONA FOREIGN KEY(IDMIEMBRO)REFERENCES PERSONA(IDMIEMBRO);
+ALTER TABLE CICLISTA ADD CONSTRAINT FK_CICLISTA_REGISTRO FOREIGN KEY(NUMEROREGISTRO)REFERENCES REGISTRO(NUMERO);
+ALTER TABLE PARTICIPA ADD CONSTRAINT FK_PARTICIPA_CICLISTA FOREIGN KEY (IDMIEMBRO)REFERENCES CICLISTA(IDMIEMBRO);
+ALTER TABLE PARTICIPA ADD CONSTRAINT FK_PARTICIPA_VERSION FOREIGN KEY (NOMBREVERSION) REFERENCES VERSION(NOMBRE);
+ALTER TABLE ORGANIZADO ADD CONSTRAINT FK_ORGANIZADO_EMPRESA FOREIGN KEY (RAZONSOCIAL) REFERENCES EMPRESA(RAZONSOCIAL);
+ALTER TABLE ORGANIZADO ADD CONSTRAINT FK_ORGANIZADO_VERSION FOREIGN KEY (NOMBREVERSION) REFERENCES VERSION(NOMBRE);
+ALTER TABLE VERSION ADD CONSTRAINT FK_VERSION_SEGMENTO FOREIGN KEY (NOMBRESEGMENTO) REFERENCES SEGMENTO(NOMBRE);
+ALTER TABLE VERSION ADD CONSTRAINT FK_VERSION_CICLISTA FOREIGN KEY (ID_MIEMBRO) REFERENCES CICLISTA (IDMIEMBRO);
+ALTER TABLE SEGMENTO ADD CONSTRAINT FK_SEGMENTO_REGISTRO FOREIGN KEY (NUMEROREGISTRO) REFERENCES REGISTRO(NUMERO);
+ALTER TABLE FOTO ADD CONSTRAINT FK_FOTO_REGISTRO FOREIGN KEY (NUMEROREGISTRO) REFERENCES REGISTRO(NUMERO);
+---------------------------------------Atributos-------------------------------------------------------------------
+--------------------------------CK---------------------------------------------------------------
+--------------------------------MIEMBRO---------------------------------------------------------------
+ALTER TABLE MIEMBRO ADD CONSTRAINT CK_MIEMBRO_ID CHECK (ID BETWEEN 1 AND 99999999999999999999999);
+ALTER TABLE MIEMBRO ADD CONSTRAINT CK_MIEMBRO_IDT CHECK (lower(IDT) IN ('cc','nt','ce'));
+ALTER TABLE MIEMBRO ADD CONSTRAINT CK_MIEMBRO_NID CHECK (LENGTH(IDN)>=7);
+ALTER TABLE MIEMBRO ADD CONSTRAINT CK_MIEMRO_CORREO CHECK (REGEXP_LIKE(CORREO,'^(\S+)\@(\S+)\.(\S+)$'));
+--------------------------------PERSONA---------------------------------------------------------------
+ALTER TABLE PERSONA ADD CONSTRAINT CK_PERSONA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999999999999999999999);
+--------------------------------EMPRESA---------------------------------------------------------------
+ALTER TABLE EMPRESA ADD CONSTRAINT CK_EMPRESA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999999999999999999999);
+--------------------------------CICLISTA---------------------------------------------------------------
+ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999);
+ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_CATEGORIA CHECK (CATEGORIA BETWEEN 1 AND 5);
+ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_NREGISTRO CHECK (NUMEROREGISTRO BETWEEN 1 AND 99999);
+--------------------------------PROPIEDADDE---------------------------------------------------------------
+ALTER TABLE PROPIEDADDE ADD CONSTRAINT CK_PROPIEDADDE_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999);
+--------------------------------REGISTRO---------------------------------------------------------------
+ALTER TABLE REGISTRO ADD CONSTRAINT CK_CICLISTA_NUMEROREGISTRO CHECK (NUMERO BETWEEN 1 AND 99999);
+ALTER TABLE REGISTRO ADD CONSTRAINT CK_REGISTRO_TIEMPO CHECK (LENGTH(TIEMPO)>=9 AND TIEMPO>0);
+ALTER TABLE REGISTRO ADD CONSTRAINT CK_REGISTRO_DIFICULTAD CHECK (DIFICULTAD IN('A','M','B'));
+ALTER TABLE REGISTRO ADD CONSTRAINT CK_REGISTRO_FOTO CHECK (FOTO LIKE 'www.%' AND FOTO LIKE'%.PDF' OR FOTO LIKE'%.GIF');
+--------------------------------FOTO--------------------------------------------------------------------
+ALTER TABLE FOTO ADD CONSTRAINT CK_FOTO_NUMEROREGISTRO CHECK (NUMEROREGISTRO BETWEEN 1 AND 99999);
+ALTER TABLE FOTO ADD CONSTRAINT CK_FOTO_FOTO CHECK (FOTO LIKE 'www.%' AND FOTO LIKE'%.PDF' OR FOTO LIKE'%.GIF');
+--------------------------------PUNTO----------------------------------------------------------------------------------------
+ALTER TABLE PUNTO ADD CONSTRAINT CK_PUNTO_CODIGO CHECK (REGEXP_LIKE(CODIGOCA,'[0-9]{3,3}[A-Z]{17,17}+$')AND LENGTH(CODIGOCA)=20);
+ALTER TABLE PUNTO ADD CONSTRAINT CK_REGISTRO_TIEMPOCA CHECK (TIEMPOLIMITE>0);
+ALTER TABLE PUNTO ADD CONSTRAINT CK_PUNTO_TIPO CHECK (TIPO IN('P','L','H','A','M','V','C'));
+--------------------------------CARRERA--------------------------------------------------------------------------------------
+ALTER TABLE CARRERA ADD CONSTRAINT CK_CARRERA_CODIGO CHECK (REGEXP_LIKE(CODIGO,'[0-9]{3,3}[A-Z]{17,17}+$')AND LENGTH(CODIGO)=20);
+ALTER TABLE CARRERA ADD CONSTRAINT CK_CARRERA_PAIS CHECK (REGEXP_LIKE(PAIS,'^[A-Z]{1,15}+$'));
+ALTER TABLE CARRERA ADD CONSTRAINT CK_CARRERA_CATEGORIA CHECK (CATEGORIA BETWEEN 1 AND 5);
+ALTER TABLE CARRERA ADD CONSTRAINT CK_CARRERA_PERIOCIDAD CHECK (PERIODICIDAD IN('ANUAL','SEMESTRAL','SEMANAL','MENSUAL','DIARIMENTE'));
+--------------------------------VERSION--------------------------------------------------------------------------------------
+ALTER TABLE VERSION ADD CONSTRAINT CK_VERSION_IDMIEMBRO CHECK (ID_MIEMBRO BETWEEN 1 AND 99999);
+--------------------------------SEGMENTO---------------------------------------------------------------------------------------
+ALTER TABLE SEGMENTO ADD CONSTRAINT CK_SEGMENTO_NUMEROREGISTRO CHECK (NUMEROREGISTRO BETWEEN 1 AND 99999);
+ALTER TABLE SEGMENTO ADD CONSTRAINT CK_SEGMENTO_TIPO CHECK (TIPO IN('C','M','L'));
+--------------------------------------------Disparadores---------------------------------------------------------------------------------
+-----------------------------------Mantener Carrera---------------------------------------------------------------------------
+-----------------------------------El nombre del punto no se debe repetir dentro de una carrera---------------------------
+CREATE OR REPLACE TRIGGER TR_PUNTO_CARRERA 
+BEFORE INSERT 
+ON PUNTO 
+FOR EACH ROW
+DECLARE
+x NUMBER;
+BEGIN
+SELECT COUNT(orden) INTO x FROM PUNTO JOIN CARRERA ON (PUNTO.CODIGOCA=CARRERA.CODIGO) WHERE PUNTO.NOMBRE=:NEW.NOMBRE;
+IF x>=1 THEN 
+RAISE_APPLICATION_ERROR(-20007,'Este nombre ya fue asignado a el punto');
+END IF;
+END;
+/
+-----------------------------------Los puntos no se pueden eliminar-----------------------------------------
+CREATE OR REPLACE TRIGGER TR_PUNTO_NO_ELIMINAR
+BEFORE DELETE
+ON PUNTO
+FOR EACH ROW
+BEGIN
+RAISE_APPLICATION_ERROR(-20003,'No se puede eliminar el punto');
+END;
+/
+----------------------------------El orden se debe generar automÃ¡ticamente 1â€¦--------------------------------
+CREATE OR REPLACE TRIGGER TR_ORDEN_PUNTO 
+BEFORE INSERT 
+ON PUNTO 
+FOR EACH ROW
+DECLARE
+x NUMBER;
+BEGIN
+SELECT COUNT(ORDEN)+1 INTO x FROM PUNTO;
+:NEW.ORDEN:= x;
+END;
+/
+-------------------------SÃ³lo debe existir un punto de partida y un punto de llegada Si no se dice el tipo del punto se asume que es meta volante a no ser que sea el primer punto que es el de partida-----------------------
+CREATE OR REPLACE TRIGGER TR_PUNTO_INIFIN
+BEFORE INSERT
+ON Punto
+FOR EACH ROW
+DECLARE
+x NUMBER;
+y NUMBER;
+z VARCHAR(1);
+BEGIN
+SELECT COUNT(TIPO)INTO x FROM PUNTO JOIN CARRERA ON(CARRERA.CODIGO=PUNTO.CODIGOCA) WHERE PUNTO.TIPO='P';
+SELECT COUNT(TIPO)INTO y FROM PUNTO JOIN CARRERA ON(CARRERA.CODIGO=PUNTO.CODIGOCA) WHERE PUNTO.TIPO='L';
+IF (x>1 OR y>1)THEN
+RAISE_APPLICATION_ERROR(-20004,'Esta carrera tiene un punto de partida o de llegada');
+SELECT TIPO INTO z FROM PUNTO JOIN CARRERA ON(CARRERA.CODIGO=PUNTO.CODIGOCA) WHERE PUNTO.TIPO='P';
+ELSE IF(:New.tipo='' and z!='P' )then
+:NEW.Tipo:='M';
+
+END IF;
+END IF;
+END;
+/
+-------------------------Si no se conoce la duraciÃ³n mÃ¡xima se asume una velocidad de 60 km/hora----------------------
+CREATE OR REPLACE TRIGGER TR_TIEMPOLIITE
+BEFORE INSERT
+ON PUNTO
+FOR EACH ROW
+BEGIN
+IF (:NEW.TIEMPOLIMITE ='')THEN
+:NEW.TIEMPOLIMITE:=60;
+END IF;
+END;
+/
+----------------------------Los Ãºnicos datos que se pueden modificar son el tipo y la duraciÃ³n.-----------------------
+CREATE OR REPLACE TRIGGER TR_MODI_TIPO_DURACION
+BEFORE UPDATE OF ORDEN,NOMBRE,DISTANCIA,CODIGOCA,NOMBRESEGMENTO
+ON PUNTO
+FOR EACH ROW
+BEGIN
+RAISE_APPLICATION_ERROR(-20005,'solo se puede modificar el tipo y la duracion');
+END;
+/
+--------------------------------No se puede modificar el tipo de partida----------------------------
+CREATE OR REPLACE TRIGGER TR_MODIFICAR_TIPO_PARTIDA
+BEFORE UPDATE OF TIPO
+ON PUNTO
+FOR EACH ROW 
+BEGIN
+RAISE_APPLICATION_ERROR(-20006,'No se puede actualizar el punto');
+END;
+/
+-------------------------REGISTRAR VERSION------------------------------------------------------------------------------------
+-------------------------El nombre de la version no se debe repetir.---------------------------
+CREATE OR REPLACE TRIGGER TR_NOMBRE_VERSION
+BEFORE INSERT
+ON VERSION
+FOR EACH ROW 
+DECLARE 
+x NUMBER;
+BEGIN
+SELECT COUNT(NOMBRE) INTO x FROM VERSION WHERE NOMBRE=:NEW.NOMBRE;
+IF (x>=1) THEN 
+RAISE_APPLICATION_ERROR(-20009,'Este nombre ya esta asignado');
+END IF;
+END;
+/
+------------------El unico dato que se puede modificar es la fecha--------------------
+CREATE OR REPLACE TRIGGER TR_VERSION_FECHA
+BEFORE UPDATE OF NOMBRE,NOMBRESEGMENTO,ID_MIEMBRO
+ON VERSION
+FOR EACH ROW
+BEGIN 
+RAISE_APPLICATION_ERROR(-20010,'Este valor no se puede modificar');
+END;
+/
+------------------La version no se puede eliminar----------------------------
+CREATE OR REPLACE TRIGGER TR_ELIMINAR_VERSION
+BEFORE DELETE
+ON VERSION
+FOR EACH ROW
+BEGIN 
+RAISE_APPLICATION_ERROR(-20011,'La version no se puede eliminar');
+END;
+/
+--------------------El nombre del segmento no se puede modificar---------------------------
+CREATE OR REPLACE TRIGGER TR_MOD_SEGMENTO
+BEFORE UPDATE OF TIPO,NUMEROREGISTRO
+ON SEGMENTO
+FOR EACH ROW
+BEGIN 
+RAISE_APPLICATION_ERROR(-20013,'El nombre del segmento no se puede modificar');
+END;
+/
+--------------------El segmento no se puede eliminar---------------------------------------
+CREATE OR REPLACE TRIGGER TR_ELIMINAR_SEGMENTO
+BEFORE DELETE
+ON SEGMENTO
+FOR EACH ROW
+BEGIN 
+RAISE_APPLICATION_ERROR(-20012,'El segmento no se puede eliminar');
+END;
+/
+
+------------------- REGISTRAR-RESULTADO------------------------------------
+----El nÃºmero-- ----y la fecha se asignan automÃ¡ticamente------
+CREATE OR REPLACE TRIGGER TR_CODIGO_RESULTADO 
+BEFORE INSERT
+ON REGISTRO 
+FOR EACH ROW 
+DECLARE
+x number;
+BEGIN 
+SELECT COUNT(NUMERO)+1 INTO x FROM REGISTRO;
+:NEW.NUMERO:= x;
+END;
+/
+ ---- La fecha se asignan automÃ¡ticamente------
+CREATE OR REPLACE TRIGGER TR_FECHA_REGISTRO
+BEFORE INSERT
+ON REGISTRO
+FOR EACH ROW
+DECLARE 
+x NUMBER;
+BEGIN
+x:= ROUND(TO_NUMBER(SYSDATE -:NEW.FECHA));
+END;
+/
+
+CREATE OR REPLACE TRIGGER TR_TRIGGER_REVISION
+BEFORE UPDATE OF NUMERO,FECHA,TIEMPO,POSICION,DIFICULTAD
+ON REGISTRO 
+FOR EACH ROW 
+BEGIN 
+RAISE_APPLICATION_ERROR(-2000,'NO SE PUEDE ACTUALIZAR EL NUMERO');
+END;
+/ 
+
+CREATE OR REPLACE TRIGGER TR_TRIGGER_ELIMINAR_REGISTRO
+BEFORE DELETE
+ON REGISTRO
+FOR EACH ROW 
+DECLARE
+x date;
+fechat date;
+BEGIN
+x:=sysdate;
+SELECT(fecha) into fechat FROM registro where numero=:new.numero;
+IF (x-fechat>1) then
+RAISE_APPLICATION_ERROR(-20001,'No se puede eliminar');
+END IF;
+END;
+/
+
+--------------------No pueden quedar dos ciclistas con la misma posiciÃ³n------
+CREATE OR REPLACE Trigger TR_ciclista_posicion
+BEFORE INSERT 
+ON REGISTRO 
+FOR EACH ROW
+DECLARE
+x INTEGER;
+BEGIN
+SELECT count(POSICION)into x FROM REGISTRO JOIN CICLISTA ON (REGISTRO.NUMERO=CICLISTA.NUMEROREGISTRO)where numero=:new.numero;
+IF(x>=1)then
+RAISE_APPLICATION_ERROR(-20002,'No se puede insertar porque ya la posicion esta asignada');
+END IF;
+END;
+/
+
+----------Solo se pueden registrar resultados de ciclistas que hayan participado en la version de la carrera a la que pertenece el segmento.--------------
+
+
+----------Un ciclista solo puede tener un Ãºnico registro en un segmento--------------------------------------------------
+CREATE OR REPLACE TRIGGER TR_REGISTRO_CICLISTA
+BEFORE INSERT 
+ON REGISTRO
+FOR EACH ROW
+DECLARE
+x INTEGER;
+BEGIN 
+SELECT COUNT(NUMERO) INTO x FROM REGISTRO JOIN CICLISTA ON (NUMERO=CICLISTA.NUMEROREGISTRO) JOIN SEGMENTO ON (NUMERO=segmento.numeroregistro) WHERE registro.NUMERO=ciclista.numeroregistro and registro.NUMERO=segmento.numeroregistro;
+IF (x>=1) THEN 
+RAISE_APPLICATION_ERROR(-20008,'No se puede insertar porque ya existe un registro del cilcista en segmento');
+END IF;
+END;
+/
+
+---------------------------------TUPLAS-------------------------------------------
+-------------La distancia siempre debe ser mayor a 1 km y La velocidad mÃ¡xima en cicla es de 100 km/hora -------------------------------------------
+ALTER TABLE PUNTO ADD CONSTRAINT TU_DISTANCIA_VELOCIDAD CHECK (DISTANCIA>1 AND DISTANCIA/TIEMPOLIMITE<=100);
+
+
+----------------------------------------Consulte la información que actualmente está en el archivo-----------------------
+select* 
+from mbda.miembros;
+------------------ Inclúyanse como ciclistas.-----------------------------------------
+insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1001169364,'Colombia','saagulaicu@hotmail.com','Connelly and Sons','Santiago Laiton',to_date('27/02/2000','DD/MM/YYYY'),4);
+insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1032505150,'Colombia','nicohhhh1@gmail.com','','Nikolai Bermudez',to_date('12/06/1999','DD/MM/YYYY'),4);
+----------------------Traten de modificarse o borrarse. ¿qué pasa?---------------------------------
+Delete from mbda.miembros where tipo='CC'and numero=1001169364;
+--------------------"insufficient privileges"------------------------------------------------------
+-----------Escriban la instrucción necesaria para lograr ese comportamiento. ¿quién la debería escribir?----------
+GRANT 
+    UPDATE,DELETE ON mbda.miembros to bd2145059,bd2127651;
+    ------------------dueño de la base de datos----------------------------
+------------Escriban las instrucciones necesarias para importar los datos de esa tabla a su base de datos--------------
+insert into miembro (id,IDT,IDN,PAIS,CORREO)
+SELECT distinct MBDA.MIEMBROS.numero,MBDA.MIEMBROS.tipo,MBDA.MIEMBROS.numero,MBDA.MIEMBROS.pais,MBDA.MIEMBROS.correo 
+FROM MBDA.MIEMBROS
+where MBDA.MIEMBROS.tipo is not null AND MBDA.MIEMBROS.NOMBRES IS NOT NULL AND RAZON IS NOT NULL;
+
+
+INSERT INTO persona(NOMBRE,IDMIEMBRO,RAZONSOCIAL)
+SELECT DISTINCT MBDA.MIEMBROS.NOMBRES,MBDA.MIEMBROS.NUMERO,MBDA.MIEMBROS.RAZON 
+FROM MBDA.MIEMBROS
+WHERE RAZON IS NOT NULL AND NOMBRES IS NOT NULL AND TIPO IS NOT NULL;
+
+INSERT INTO empresa(RAZONSOCIAL,IDMIEMBRO)
+SELECT DISTINCT MBDA.MIEMBROS.RAZON,MBDA.MIEMBROS.NUMERO
+FROM MBDA.MIEMBROS
+WHERE RAZON IS NOT NULL AND NOMBRES IS NOT NULL AND TIPO IS NOT NULL;

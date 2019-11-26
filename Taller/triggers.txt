@@ -1,0 +1,33 @@
+create or replace trigger TR_bien
+before delete
+on bien for each row
+declare
+x varchar (20);
+begin
+x:=:old.id_factura;
+if not (x='' or x is null or x=' ')
+then 
+RAISE_APPLICATION_ERROR(-20001,'no se puede eliminar por que el bien tiene servicio')
+end if;
+end;
+/
+
+create or replace trigger TR_CODIGO
+before insert 
+on bien
+for each row
+declare
+y varchar(3);
+begin
+y := :old.codigo
+if not (y='' or y is null)
+select LEFT(nombre 1,3) into y from bien;
+:new.codigo:=y;
+then
+RAISE_APPLICATION_ERROR(-20002,'NO SE PUEDE INSERTAR EL CODIGO');
+end if;
+end;
+/
+
+
+
