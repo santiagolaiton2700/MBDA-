@@ -580,3 +580,6 @@ CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
     END;
 END PC_REGISTROS;
 /
+
+-----------------------------------------------------SEGURIDAD----------------------------------------------
+
