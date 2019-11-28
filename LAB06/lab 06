@@ -68,7 +68,8 @@ POSICION NUMBER(5)NOT NULL,
 REVISION VARCHAR(50),
 DIFICULTAD VARCHAR(1)NOT NULL,
 FOTO VARCHAR(50),
-COMENTARIO VARCHAR(30));
+COMENTARIO VARCHAR(30),
+TREVISION XMLTYPE NOT NULL);
 
 CREATE TABLE Foto(
 NUMEROREGISTRO NUMBER(3)NOT NULL,
@@ -128,7 +129,7 @@ ALTER TABLE PERSONA ADD CONSTRAINT CK_PERSONA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN
 --------------------------------EMPRESA---------------------------------------------------------------
 ALTER TABLE EMPRESA ADD CONSTRAINT CK_EMPRESA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999999999999999999999);
 --------------------------------CICLISTA---------------------------------------------------------------
-ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 9999999999999999999999);
+ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999);
 ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_CATEGORIA CHECK (CATEGORIA BETWEEN 1 AND 5);
 ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_NREGISTRO CHECK (NUMEROREGISTRO BETWEEN 1 AND 99999);
 --------------------------------PROPIEDADDE---------------------------------------------------------------
@@ -180,7 +181,7 @@ BEGIN
 RAISE_APPLICATION_ERROR(-20003,'No se puede eliminar el punto');
 END;
 /
-----------------------------------El orden se debe generar automáticamente 1…--------------------------------
+----------------------------------El orden se debe generar automÃ¡ticamente 1â€¦--------------------------------
 CREATE OR REPLACE TRIGGER TR_ORDEN_PUNTO 
 BEFORE INSERT 
 ON PUNTO 
@@ -192,7 +193,7 @@ SELECT COUNT(ORDEN)+1 INTO x FROM PUNTO;
 :NEW.ORDEN:= x;
 END;
 /
--------------------------Sólo debe existir un punto de partida y un punto de llegada Si no se dice el tipo del punto se asume que es meta volante a no ser que sea el primer punto que es el de partida-----------------------
+-------------------------SÃ³lo debe existir un punto de partida y un punto de llegada Si no se dice el tipo del punto se asume que es meta volante a no ser que sea el primer punto que es el de partida-----------------------
 CREATE OR REPLACE TRIGGER TR_PUNTO_INIFIN
 BEFORE INSERT
 ON Punto
@@ -214,7 +215,7 @@ END IF;
 END IF;
 END;
 /
--------------------------Si no se conoce la duración máxima se asume una velocidad de 60 km/hora----------------------
+-------------------------Si no se conoce la duraciÃ³n mÃ¡xima se asume una velocidad de 60 km/hora----------------------
 CREATE OR REPLACE TRIGGER TR_TIEMPOLIITE
 BEFORE INSERT
 ON PUNTO
@@ -225,7 +226,7 @@ IF (:NEW.TIEMPOLIMITE ='')THEN
 END IF;
 END;
 /
-----------------------------Los únicos datos que se pueden modificar son el tipo y la duración.-----------------------
+----------------------------Los Ãºnicos datos que se pueden modificar son el tipo y la duraciÃ³n.-----------------------
 CREATE OR REPLACE TRIGGER TR_MODI_TIPO_DURACION
 BEFORE UPDATE OF ORDEN,NOMBRE,DISTANCIA,CODIGOCA,NOMBRESEGMENTO
 ON PUNTO
@@ -296,7 +297,7 @@ END;
 /
 
 ------------------- REGISTRAR-RESULTADO------------------------------------
-----El número-- ----y la fecha se asignan automáticamente------
+----El nÃºmero-- ----y la fecha se asignan automÃ¡ticamente------
 CREATE OR REPLACE TRIGGER TR_CODIGO_RESULTADO 
 BEFORE INSERT
 ON REGISTRO 
@@ -308,9 +309,7 @@ SELECT COUNT(NUMERO)+1 INTO x FROM REGISTRO;
 :NEW.NUMERO:= x;
 END;
 /
-DROP TRIGGER TR_CODIGO_RESULTADO;
-DROP TRIGGER TR_FECHA_REGISTRO;
- ---- La fecha se asignan automáticamente------
+ ---- La fecha se asignan automÃ¡ticamente------
 CREATE OR REPLACE TRIGGER TR_FECHA_REGISTRO
 BEFORE INSERT
 ON REGISTRO
@@ -347,7 +346,7 @@ END IF;
 END;
 /
 
---------------------No pueden quedar dos ciclistas con la misma posición------
+--------------------No pueden quedar dos ciclistas con la misma posiciÃ³n------
 CREATE OR REPLACE Trigger TR_ciclista_posicion
 BEFORE INSERT 
 ON REGISTRO 
@@ -365,7 +364,7 @@ END;
 ----------Solo se pueden registrar resultados de ciclistas que hayan participado en la version de la carrera a la que pertenece el segmento.--------------
 
 
-----------Un ciclista solo puede tener un único registro en un segmento--------------------------------------------------
+----------Un ciclista solo puede tener un Ãºnico registro en un segmento--------------------------------------------------
 CREATE OR REPLACE TRIGGER TR_REGISTRO_CICLISTA
 BEFORE INSERT 
 ON REGISTRO
@@ -381,23 +380,23 @@ END;
 /
 
 ---------------------------------TUPLAS-------------------------------------------
--------------La distancia siempre debe ser mayor a 1 km y La velocidad máxima en cicla es de 100 km/hora -------------------------------------------
+-------------La distancia siempre debe ser mayor a 1 km y La velocidad mÃ¡xima en cicla es de 100 km/hora -------------------------------------------
 ALTER TABLE PUNTO ADD CONSTRAINT TU_DISTANCIA_VELOCIDAD CHECK (DISTANCIA>1 AND DISTANCIA/TIEMPOLIMITE<=100);
 
 
-----------------------------------------Consulte la informaci�n que actualmente est� en el archivo-----------------------
-./;;.select* 
+----------------------------------------Consulte la información que actualmente está en el archivo-----------------------
+select* 
 from mbda.miembros;
------------------- Incl�yanse como ciclistas.-----------------------------------------
+------------------ Inclúyanse como ciclistas.-----------------------------------------
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1001169364,'Colombia','saagulaicu@hotmail.com','Connelly and Sons','Santiago Laiton',to_date('27/02/2000','DD/MM/YYYY'),4);
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1032505150,'Colombia','nicohhhh1@gmail.com','','Nikolai Bermudez',to_date('12/06/1999','DD/MM/YYYY'),4);
-----------------------Traten de modificarse o borrarse. �qu?asa?---------------------------------
+----------------------Traten de modificarse o borrarse. ¿qué pasa?---------------------------------
 Delete from mbda.miembros where tipo='CC'and numero=1001169364;
 --------------------"insufficient privileges"------------------------------------------------------
------------Escriban la instrucci?ecesaria para lograr ese comportamiento. �qui?la deber?escribir?----------
+-----------Escriban la instrucción necesaria para lograr ese comportamiento. ¿quién la debería escribir?----------
 GRANT 
     UPDATE,DELETE ON mbda.miembros to bd2145059,bd2127651;
-    ------------------due?e la base de datos----------------------------
+    ------------------dueño de la base de datos----------------------------
 ------------Escriban las instrucciones necesarias para importar los datos de esa tabla a su base de datos--------------
 insert into miembro (id,IDT,IDN,PAIS,CORREO)
 SELECT distinct MBDA.MIEMBROS.numero,MBDA.MIEMBROS.tipo,MBDA.MIEMBROS.numero,MBDA.MIEMBROS.pais,MBDA.MIEMBROS.correo 
@@ -432,74 +431,74 @@ CREATE OR REPLACE PACKAGE BODY PC_CARRERAS IS
     PROCEDURE AD_CARRERA(xCODIGO IN VARCHAR,xNombre IN VARCHAR,xPais IN VARCHAR,xCategoria IN NUMBER,xPERIODICIDAD IN VARCHAR,xNombreversion IN VARCHAR)IS
         BEGIN
             INSERT INTO CARRERA(CODIGO,NOMBRE,PAIS,CATEGORIA,PERIODICIDAD,NOMBREVERSION)VALUES(xCODIGO,xNOMBRE,xPAIS,xCATEGORIA,xPERIODICIDAD,xNOMBREVERSION);
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20011,'NO SE PUEDE INSERTAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20011,'NO SE PUEDE INSERTAR');
         END;
     PROCEDURE AD_PUNTO(xNombre IN VARCHAR,xTipo IN VARCHAR, xDistancia IN NUMBER, xTiempoLimite IN NUMBER,xCodigoca IN VARCHAR,xNombreSegmento IN VARCHAR)IS
         BEGIN
             INSERT INTO PUNTO(Nombre,Tipo,distancia,tiempolimite,codigoca,nombresegmento)values(xNombre,xTipo,xdistancia,xtiempolimite,xcodigoca,xnombresegmento);
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20012,'NO SE PUEDE INSERTAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20012,'NO SE PUEDE INSERTAR');
         END;
     PROCEDURE AD_PropiedadDe(xPorcentaje IN NUMBER,xCodigoca IN VARCHAR,xIdMiembro IN NUMBER)IS
         BEGIN
             INSERT INTO PROPIEDADDE(PORCENTAJE,CODIGOCA,IDMIEMBRO)VALUES(xPORCENTAJE,xCODIGOCA,xIDMIEMBRO);
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20013,'NO SE PUEDE INSERTAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20013,'NO SE PUEDE INSERTAR');
         END;
     PROCEDURE MOD_CARRERA(xCodigo IN VARCHAR,xNombre IN VARCHAR,xPais IN VARCHAR,xCategoria IN NUMBER,xPeriodicidad IN VARCHAR,xNombreVersion IN VARCHAR)IS
         BEGIN
             UPDATE CARRERA SET NOMBRE=xNOMBRE,PAIS=xPAIS,CATEGORIA=xCATEGORIA,PERIODICIDAD=xPERIODICIDAD,NOMBREVERSION=xPERIODICIDAD WHERE CODIGO=xCODIGO;
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20014,'NO SE PUEDE ACTUALIZAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20014,'NO SE PUEDE ACTUALIZAR');
         END;
     PROCEDURE MOD_PUNTO(xCodigoca IN VARCHAR,xTiempoLimite IN NUMBER)IS
         BEGIN
             UPDATE PUNTO SET TIEMPOLIMITE=xTIEMPOLIMITE WHERE CODIGOCA=xCODIGOCA;
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20015,'NO SE PUEDE ACTUALIZAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20015,'NO SE PUEDE ACTUALIZAR');
         END;
     PROCEDURE MOD_PROPIEDADDE(xCodigoCa IN NUMBER,xIdMiembro IN NUMBER,xPorcentaje IN NUMBER)IS
         BEGIN
             UPDATE PROPIEDADDE SET Porcentaje=xPorcentaje WHERE IdMiembro=xIdMiembro AND CODIGOCA=xCODIGOCA;
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20016,'NO SE PUEDE ACTUALIZAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20016,'NO SE PUEDE ACTUALIZAR');
         END;
     PROCEDURE EL_CARRERA(xCodigo IN VARCHAR)IS
         BEGIN
-            DELETE FROM CARRERA WHERE codigo=xCODIGO;
+        DELETE FROM CARRERA WHERE codigo=xCODIGO;
             COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20017,'NO SE PUEDE ELIMINAR');
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20017,'NO SE PUEDE ELIMINAR');
         END;
     PROCEDURE EL_PROPIEDADDE(xCodigoCa IN NUMBER,xIdMiembro IN NUMBER)IS
         BEGIN 
             DELETE FROM PROPIEDADDE WHERE codigoca=xCODIGOCA;
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20018,'NO SE PUEDE ELIMINAR');
+        COMMIT;
+        EXCEPTION
+        WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20018,'NO SE PUEDE ELIMINAR');
         END;
     FUNCTION CO_CARRERA RETURN SYS_REFCURSOR IS CO_ER SYS_REFCURSOR;
     BEGIN
@@ -522,7 +521,7 @@ CREATE OR REPLACE PACKAGE BODY PC_CARRERAS IS
 END PC_CARRERAS;
 /
 CREATE OR REPLACE PACKAGE PC_REGISTROS IS 
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR, xTrevision IN XMLTYPE);
     PROCEDURE MOD_REGISTRO(xNumero IN NUMBER,xRevision IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
     PROCEDURE AD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
     PROCEDURE MOD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
@@ -532,42 +531,42 @@ CREATE OR REPLACE PACKAGE PC_REGISTROS IS
 END PC_REGISTROS;
 /
 CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR) IS
-        BEGIN
-            INSERT INTO REGISTRO(TIEMPO, POSICION, REVISION, DIFICULTAD, FOTO, COMENTARIO) VALUES(xtiempo,xPosicion, xRevision,xDificultad ,xFOTO ,xComentario);
-        COMMIT;
-        EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                    RAISE_APPLICATION_ERROR(-20009,'NO SE PUEDE INSERTAR XD');
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR, xTrevision IN XMLTYPE) IS
+    BEGIN
+        INSERT INTO REGISTRO(TIEMPO, POSICION, REVISION, DIFICULTAD, FOTO, COMENTARIO, TREVISION) VALUES(xtiempo,xPosicion, xRevision,xDificultad ,xFOTO ,xComentario,xTrevision );
+    COMMIT;
+    EXCEPTION
+    WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE_APPLICATION_ERROR(-20009,'se encontro un error - '||SQLCODE||'-ERROR-'||SQLERRM);
     END;
     PROCEDURE MOD_REGISTRO (xNumero IN NUMBER,xRevision IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR) IS 
-        BEGIN 
-            UPDATE REGISTRO SET revision = xrevision, foto=xfoto ,comentario=xComentario where numero=xNUMERO;
-        COMMIT;
-        EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20010,'NO SE PUEDE MODIFICAR');
+    BEGIN 
+        UPDATE REGISTRO SET revision = xrevision, foto=xfoto ,comentario=xComentario where numero=xNUMERO;
+    COMMIT;
+    EXCEPTION
+    WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE_APPLICATION_ERROR(-20010,'NO SE PUEDE MODIFICAR');
     END;
     PROCEDURE AD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR)IS
-        BEGIN 
-            INSERT INTO FOTO(NUMEROREGISTRO,FOTO)VALUES(xNUMEROREGISTRO,xFOTO);
-            COMMIT;
-            EXCEPTION
-            WHEN OTHERS THEN
-                ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20018,'NO SE PUEDE INSERTAR');
-        END;
+    BEGIN 
+        INSERT INTO FOTO(NUMEROREGISTRO,FOTO)VALUES(xNUMEROREGISTRO,xFOTO);
+    COMMIT;
+    EXCEPTION
+    WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE_APPLICATION_ERROR(-20018,'NO SE PUEDE INSERTAR');
+    END;
     PROCEDURE MOD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR)IS
-        BEGIN
-            UPDATE FOTO SET FOTO=xFOTO WHERE NUMEROREGISTRO=xNUMEROREGISTRO;
-        COMMIT;
-        EXCEPTION 
-        WHEN OTHERS THEN
-            ROLLBACK;
-            RAISE_APPLICATION_ERROR(-20019,'NO SE PUEDE MODIFICAR');
-        END;
+    BEGIN
+        UPDATE FOTO SET FOTO=xFOTO WHERE NUMEROREGISTRO=xNUMEROREGISTRO;
+    COMMIT;
+    EXCEPTION 
+    WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE_APPLICATION_ERROR(-20019,'NO SE PUEDE MODIFICAR');
+    END;
     FUNCTION CO_REGISTRO  RETURN SYS_REFCURSOR IS CO_ER SYS_REFCURSOR;
     BEGIN
     OPEN CO_ER FOR 
@@ -583,7 +582,6 @@ CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
 END PC_REGISTROS;
 /
 
------------------------------------------------------CRUDOK---------------------------------------------
 -----------------------------------------------------SEGURIDAD----------------------------------------------
 CREATE OR REPLACE PACKAGE PA_ADMINISTRADOR IS
     PROCEDURE AD_MIEMBRO(xid in number,xIDT in varchar, xIdn in NUMBER,xPais IN VARCHAR,xCorreo IN VARCHAR);
@@ -737,5 +735,7 @@ CREATE OR REPLACE PACKAGE BODY PA_ADMINISTRADOR IS
     END;
 END PA_ADMINISTRADOR;
 /
+
+
 
     
