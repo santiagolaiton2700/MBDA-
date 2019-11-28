@@ -68,8 +68,7 @@ POSICION NUMBER(5)NOT NULL,
 REVISION VARCHAR(50),
 DIFICULTAD VARCHAR(1)NOT NULL,
 FOTO VARCHAR(50),
-COMENTARIO VARCHAR(30),
-TREVISION XMLTYPE NOT NULL);
+COMENTARIO VARCHAR(30));
 
 CREATE TABLE Foto(
 NUMEROREGISTRO NUMBER(3)NOT NULL,
@@ -129,7 +128,7 @@ ALTER TABLE PERSONA ADD CONSTRAINT CK_PERSONA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN
 --------------------------------EMPRESA---------------------------------------------------------------
 ALTER TABLE EMPRESA ADD CONSTRAINT CK_EMPRESA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999999999999999999999);
 --------------------------------CICLISTA---------------------------------------------------------------
-ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 99999);
+ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_IDMIEMBRO CHECK (IDMIEMBRO BETWEEN 1 AND 9999999999999999999999);
 ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_CATEGORIA CHECK (CATEGORIA BETWEEN 1 AND 5);
 ALTER TABLE CICLISTA ADD CONSTRAINT CK_CICLISTA_NREGISTRO CHECK (NUMEROREGISTRO BETWEEN 1 AND 99999);
 --------------------------------PROPIEDADDE---------------------------------------------------------------
@@ -309,6 +308,8 @@ SELECT COUNT(NUMERO)+1 INTO x FROM REGISTRO;
 :NEW.NUMERO:= x;
 END;
 /
+DROP TRIGGER TR_CODIGO_RESULTADO;
+DROP TRIGGER TR_FECHA_REGISTRO;
  ---- La fecha se asignan automÃ¡ticamente------
 CREATE OR REPLACE TRIGGER TR_FECHA_REGISTRO
 BEFORE INSERT
@@ -385,18 +386,18 @@ ALTER TABLE PUNTO ADD CONSTRAINT TU_DISTANCIA_VELOCIDAD CHECK (DISTANCIA>1 AND D
 
 
 ----------------------------------------Consulte la información que actualmente está en el archivo-----------------------
-select* 
+./;;.select* 
 from mbda.miembros;
 ------------------ Inclúyanse como ciclistas.-----------------------------------------
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1001169364,'Colombia','saagulaicu@hotmail.com','Connelly and Sons','Santiago Laiton',to_date('27/02/2000','DD/MM/YYYY'),4);
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1032505150,'Colombia','nicohhhh1@gmail.com','','Nikolai Bermudez',to_date('12/06/1999','DD/MM/YYYY'),4);
-----------------------Traten de modificarse o borrarse. ¿qué pasa?---------------------------------
+----------------------Traten de modificarse o borrarse. ¿qu?asa?---------------------------------
 Delete from mbda.miembros where tipo='CC'and numero=1001169364;
 --------------------"insufficient privileges"------------------------------------------------------
------------Escriban la instrucción necesaria para lograr ese comportamiento. ¿quién la debería escribir?----------
+-----------Escriban la instrucci?ecesaria para lograr ese comportamiento. ¿qui?la deber?escribir?----------
 GRANT 
     UPDATE,DELETE ON mbda.miembros to bd2145059,bd2127651;
-    ------------------dueño de la base de datos----------------------------
+    ------------------due?e la base de datos----------------------------
 ------------Escriban las instrucciones necesarias para importar los datos de esa tabla a su base de datos--------------
 insert into miembro (id,IDT,IDN,PAIS,CORREO)
 SELECT distinct MBDA.MIEMBROS.numero,MBDA.MIEMBROS.tipo,MBDA.MIEMBROS.numero,MBDA.MIEMBROS.pais,MBDA.MIEMBROS.correo 
@@ -521,7 +522,7 @@ CREATE OR REPLACE PACKAGE BODY PC_CARRERAS IS
 END PC_CARRERAS;
 /
 CREATE OR REPLACE PACKAGE PC_REGISTROS IS 
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR, xTrevision IN XMLTYPE);
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
     PROCEDURE MOD_REGISTRO(xNumero IN NUMBER,xRevision IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
     PROCEDURE AD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
     PROCEDURE MOD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
@@ -531,14 +532,14 @@ CREATE OR REPLACE PACKAGE PC_REGISTROS IS
 END PC_REGISTROS;
 /
 CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR, xTrevision IN XMLTYPE) IS
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR) IS
         BEGIN
-            INSERT INTO REGISTRO(TIEMPO, POSICION, REVISION, DIFICULTAD, FOTO, COMENTARIO, TREVISION) VALUES(xtiempo,xPosicion, xRevision,xDificultad ,xFOTO ,xComentario,xTrevision );
-            COMMIT;
-            EXCEPTION
+            INSERT INTO REGISTRO(TIEMPO, POSICION, REVISION, DIFICULTAD, FOTO, COMENTARIO) VALUES(xtiempo,xPosicion, xRevision,xDificultad ,xFOTO ,xComentario);
+        COMMIT;
+        EXCEPTION
             WHEN OTHERS THEN
                 ROLLBACK;
-                RAISE_APPLICATION_ERROR(-20009,'NO SE PUEDE INSERTAR');
+                    RAISE_APPLICATION_ERROR(-20009,'NO SE PUEDE INSERTAR XD');
     END;
     PROCEDURE MOD_REGISTRO (xNumero IN NUMBER,xRevision IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR) IS 
         BEGIN 
@@ -582,9 +583,7 @@ CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
 END PC_REGISTROS;
 /
 
-<<<<<<< HEAD
------------------------------------------------------CRUDOK----------------------------------------------
-=======
+-----------------------------------------------------CRUDOK---------------------------------------------
 -----------------------------------------------------SEGURIDAD----------------------------------------------
 CREATE OR REPLACE PACKAGE PA_ADMINISTRADOR IS
     PROCEDURE AD_MIEMBRO(xid in number,xIDT in varchar, xIdn in NUMBER,xPais IN VARCHAR,xCorreo IN VARCHAR);
@@ -738,7 +737,5 @@ CREATE OR REPLACE PACKAGE BODY PA_ADMINISTRADOR IS
     END;
 END PA_ADMINISTRADOR;
 /
-
->>>>>>> 3f1ac99dfc013c823d312f8811e44c3810771bf8
 
     
