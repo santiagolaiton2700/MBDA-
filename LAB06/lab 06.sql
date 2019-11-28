@@ -68,8 +68,7 @@ POSICION NUMBER(5)NOT NULL,
 REVISION VARCHAR(50),
 DIFICULTAD VARCHAR(1)NOT NULL,
 FOTO VARCHAR(50),
-COMENTARIO VARCHAR(30),
-TREVISION XMLTYPE NOT NULL);
+COMENTARIO VARCHAR(30));
 
 CREATE TABLE Foto(
 NUMEROREGISTRO NUMBER(3)NOT NULL,
@@ -181,7 +180,7 @@ BEGIN
 RAISE_APPLICATION_ERROR(-20003,'No se puede eliminar el punto');
 END;
 /
-----------------------------------El orden se debe generar automÃ¡ticamente 1â€¦--------------------------------
+----------------------------------El orden se debe generar automáticamente 1…--------------------------------
 CREATE OR REPLACE TRIGGER TR_ORDEN_PUNTO 
 BEFORE INSERT 
 ON PUNTO 
@@ -193,7 +192,7 @@ SELECT COUNT(ORDEN)+1 INTO x FROM PUNTO;
 :NEW.ORDEN:= x;
 END;
 /
--------------------------SÃ³lo debe existir un punto de partida y un punto de llegada Si no se dice el tipo del punto se asume que es meta volante a no ser que sea el primer punto que es el de partida-----------------------
+-------------------------Sólo debe existir un punto de partida y un punto de llegada Si no se dice el tipo del punto se asume que es meta volante a no ser que sea el primer punto que es el de partida-----------------------
 CREATE OR REPLACE TRIGGER TR_PUNTO_INIFIN
 BEFORE INSERT
 ON Punto
@@ -215,7 +214,7 @@ END IF;
 END IF;
 END;
 /
--------------------------Si no se conoce la duraciÃ³n mÃ¡xima se asume una velocidad de 60 km/hora----------------------
+-------------------------Si no se conoce la duración máxima se asume una velocidad de 60 km/hora----------------------
 CREATE OR REPLACE TRIGGER TR_TIEMPOLIITE
 BEFORE INSERT
 ON PUNTO
@@ -226,7 +225,7 @@ IF (:NEW.TIEMPOLIMITE ='')THEN
 END IF;
 END;
 /
-----------------------------Los Ãºnicos datos que se pueden modificar son el tipo y la duraciÃ³n.-----------------------
+----------------------------Los únicos datos que se pueden modificar son el tipo y la duración.-----------------------
 CREATE OR REPLACE TRIGGER TR_MODI_TIPO_DURACION
 BEFORE UPDATE OF ORDEN,NOMBRE,DISTANCIA,CODIGOCA,NOMBRESEGMENTO
 ON PUNTO
@@ -297,7 +296,7 @@ END;
 /
 
 ------------------- REGISTRAR-RESULTADO------------------------------------
-----El nÃºmero-- ----y la fecha se asignan automÃ¡ticamente------
+----El número-- ----y la fecha se asignan automáticamente------
 CREATE OR REPLACE TRIGGER TR_CODIGO_RESULTADO 
 BEFORE INSERT
 ON REGISTRO 
@@ -309,15 +308,13 @@ SELECT COUNT(NUMERO)+1 INTO x FROM REGISTRO;
 :NEW.NUMERO:= x;
 END;
 /
- ---- La fecha se asignan automÃ¡ticamente------
+ ---- La fecha se asignan automáticamente------
 CREATE OR REPLACE TRIGGER TR_FECHA_REGISTRO
 BEFORE INSERT
 ON REGISTRO
 FOR EACH ROW
-DECLARE 
-x NUMBER;
 BEGIN
-x:= ROUND(TO_NUMBER(SYSDATE -:NEW.FECHA));
+:new.FECHA:=sysdate;
 END;
 /
 
@@ -346,7 +343,7 @@ END IF;
 END;
 /
 
---------------------No pueden quedar dos ciclistas con la misma posiciÃ³n------
+--------------------No pueden quedar dos ciclistas con la misma posición------
 CREATE OR REPLACE Trigger TR_ciclista_posicion
 BEFORE INSERT 
 ON REGISTRO 
@@ -364,7 +361,7 @@ END;
 ----------Solo se pueden registrar resultados de ciclistas que hayan participado en la version de la carrera a la que pertenece el segmento.--------------
 
 
-----------Un ciclista solo puede tener un Ãºnico registro en un segmento--------------------------------------------------
+----------Un ciclista solo puede tener un único registro en un segmento--------------------------------------------------
 CREATE OR REPLACE TRIGGER TR_REGISTRO_CICLISTA
 BEFORE INSERT 
 ON REGISTRO
@@ -380,23 +377,23 @@ END;
 /
 
 ---------------------------------TUPLAS-------------------------------------------
--------------La distancia siempre debe ser mayor a 1 km y La velocidad mÃ¡xima en cicla es de 100 km/hora -------------------------------------------
+-------------La distancia siempre debe ser mayor a 1 km y La velocidad máxima en cicla es de 100 km/hora -------------------------------------------
 ALTER TABLE PUNTO ADD CONSTRAINT TU_DISTANCIA_VELOCIDAD CHECK (DISTANCIA>1 AND DISTANCIA/TIEMPOLIMITE<=100);
 
 
-----------------------------------------Consulte la información que actualmente está en el archivo-----------------------
+----------------------------------------Consulte la informaci�n que actualmente est� en el archivo-----------------------
 select* 
 from mbda.miembros;
------------------- Inclúyanse como ciclistas.-----------------------------------------
+------------------ Incl�yanse como ciclistas.-----------------------------------------
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1001169364,'Colombia','saagulaicu@hotmail.com','Connelly and Sons','Santiago Laiton',to_date('27/02/2000','DD/MM/YYYY'),4);
 insert into mbda.miembros(tipo,numero,pais,correo,razon,nombres,nacimiento,categoria)values('CC',1032505150,'Colombia','nicohhhh1@gmail.com','','Nikolai Bermudez',to_date('12/06/1999','DD/MM/YYYY'),4);
-----------------------Traten de modificarse o borrarse. ¿qué pasa?---------------------------------
+----------------------Traten de modificarse o borrarse. �qu� pasa?---------------------------------
 Delete from mbda.miembros where tipo='CC'and numero=1001169364;
 --------------------"insufficient privileges"------------------------------------------------------
------------Escriban la instrucción necesaria para lograr ese comportamiento. ¿quién la debería escribir?----------
+-----------Escriban la instrucci�n necesaria para lograr ese comportamiento. �qui�n la deber�a escribir?----------
 GRANT 
     UPDATE,DELETE ON mbda.miembros to bd2145059,bd2127651;
-    ------------------dueño de la base de datos----------------------------
+    ------------------due�o de la base de datos----------------------------
 ------------Escriban las instrucciones necesarias para importar los datos de esa tabla a su base de datos--------------
 insert into miembro (id,IDT,IDN,PAIS,CORREO)
 SELECT distinct MBDA.MIEMBROS.numero,MBDA.MIEMBROS.tipo,MBDA.MIEMBROS.numero,MBDA.MIEMBROS.pais,MBDA.MIEMBROS.correo 
@@ -521,7 +518,7 @@ CREATE OR REPLACE PACKAGE BODY PC_CARRERAS IS
 END PC_CARRERAS;
 /
 CREATE OR REPLACE PACKAGE PC_REGISTROS IS 
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR, xTrevision IN XMLTYPE);
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER,xPosicion IN NUMBER, xRevision IN VARCHAR,xDificultad IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
     PROCEDURE MOD_REGISTRO(xNumero IN NUMBER,xRevision IN VARCHAR,xFOTO IN VARCHAR ,xComentario IN VARCHAR);
     PROCEDURE AD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
     PROCEDURE MOD_FOTO(xNumeroRegistro IN NUMBER,xFoto IN VARCHAR);
@@ -530,10 +527,11 @@ CREATE OR REPLACE PACKAGE PC_REGISTROS IS
 
 END PC_REGISTROS;
 /
+
 CREATE OR REPLACE PACKAGE BODY PC_REGISTROS IS
-    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR, xTrevision IN XMLTYPE) IS
+    PROCEDURE AD_REGISTRO(xTiempo IN NUMBER, xPosicion IN NUMBER, xRevision IN VARCHAR, xDificultad IN VARCHAR, xFOTO IN VARCHAR , xComentario IN VARCHAR) IS
     BEGIN
-        INSERT INTO REGISTRO(TIEMPO, POSICION, REVISION, DIFICULTAD, FOTO, COMENTARIO, TREVISION) VALUES(xtiempo,xPosicion, xRevision,xDificultad ,xFOTO ,xComentario,xTrevision );
+        INSERT INTO registro values(1,TO_DATE('28/09/2019','dd/mm/yyyy'),xtiempo,xPosicion,xRevision,xDificultad,xFOTO,xComentario);
     COMMIT;
     EXCEPTION
     WHEN OTHERS THEN
