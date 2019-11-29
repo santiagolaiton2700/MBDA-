@@ -32,7 +32,7 @@ END;
 /
 ---------------------------La tarjeta profesional y la identificacion no se puede modificar----------------------
 CREATE OR REPLACE TRIGGER MOD_TARJETA_IDENTIFICACION
-BEFORE UPDATE OF identificacion,Tarjetaprofesional,nombre,apellido
+BEFORE UPDATE OF identificacion,TARPROFESIONAL,nombre,apellido
 ON ABOGADOS
 BEGIN 
 RAISE_APPLICATION_ERROR(-20013,'NO SE PUEDE MODIFICAR LA IDENTIFICAION Y LA TARJETA PROFESIONAL');
