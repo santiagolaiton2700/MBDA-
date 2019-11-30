@@ -18,7 +18,7 @@ END;
 /
 ------------------Lo unico que se puede modificar son los detalles y el valor del accidente------------------------------------
 CREATE OR REPLACE TRIGGER TR_MOD_DETALLES
-BEFORE UPDATE OF NoAccidente,IdAbogado
+BEFORE UPDATE OF NoAccidente,IdAbogado,FECHA
 ON Accidentes
 FOR EACH ROW
 BEGIN
