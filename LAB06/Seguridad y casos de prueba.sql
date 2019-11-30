@@ -145,7 +145,6 @@ END;
 
 
 
-
 -------------------------------------------------------------------------------------------------------------------------
 /*
 INSERT INTO CARRERA(CODIGO,NOMBRE,PAIS,CATEGORIA,PERIODICIDAD,NOMBREVERSION)VALUES('123ABBBBBBBBBBBBBBBB','TOUR F','FRANCIA',2,'ANUAL', '201CO');
