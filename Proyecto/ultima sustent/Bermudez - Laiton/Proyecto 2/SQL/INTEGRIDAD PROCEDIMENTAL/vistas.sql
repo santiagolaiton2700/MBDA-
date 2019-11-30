@@ -34,7 +34,7 @@ SELECT Placa,linea,marca,cilindraje
 from vehiculos
 where noMotor = 465 AND placa LIKE 'R%');
 --------------------------Mostrar cuantos lote de produccion hay en el año--------------------
-CREATE OR REPLACE VIEW DetalleDeLotes as (
+CREATE OR REPLACE VIEW DetalleDeLotes AS (
 SELECT COUNT(CODIGOINICIO)
 from LoteProducciones
 where INICIOLOTE BETWEEN TRUNC(SYSDATE,'YEAR')AND ADD_MONTHS(TRUNC(SYSDATE,'YEAR'),12)-1);
