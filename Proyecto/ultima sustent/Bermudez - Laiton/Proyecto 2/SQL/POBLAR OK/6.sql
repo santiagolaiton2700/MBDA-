@@ -4,8 +4,20 @@
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha)
 VALUES
 (
-0, 'CHOQUELATERAL', 'DAÃ‘ODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY')
-);
+0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY'),
+	'<Detalle>
+		<Informacion NoAccidente=0 >
+			<PartesAfectada>"Puerta trasera derecha, puerta delantera izquierda "</PartesAfectada>
+			<Lugar>"Centro de Bogota"</Lugar>
+			<Hora>"2:00 pm"</Hora>
+			<LeyesInfrigidas>"NO respertar un pare,exceso de velocidad"</LeyesInfrigidas>
+			<NumeroHeridos>2</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>"Si"</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>"No"</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>"No"</ChoquecontraEstructuras>
+		</Informacion>
+	</Detalle>');
 
 /* INSERT QUERY NO: 2 */
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha)
