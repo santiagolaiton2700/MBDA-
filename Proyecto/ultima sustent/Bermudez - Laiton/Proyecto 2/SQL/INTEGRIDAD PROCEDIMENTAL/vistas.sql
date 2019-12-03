@@ -7,7 +7,7 @@ WHERE fecha BETWEEN TRUNC(SYSDATE,'YEAR')AND ADD_MONTHS(TRUNC(SYSDATE,'YEAR'),12
 CREATE OR REPLACE VIEW conductorDelVehiculo AS (
 SELECT nombre,apellido,telefono,cedula
 FROM vehiculos JOIN conductores ON (vehiculos.ceconductor=conductores.cedula)
-WHERE vehiculos.placa='RCO609' AND nombre like '%A%'  );
+WHERE vehiculos.placa='OWX101' AND nombre like '%d%');
 ------------------Conocer cuantas polizas se vendieron en el ano--------------------------
 CREATE OR REPLACE VIEW cantidadDePolizas AS( 
 SELECT COUNT(noPoliza) AS Total
@@ -32,10 +32,14 @@ where nombre = 'Farrand');
 CREATE OR REPLACE VIEW caracteristicasVehiculo as (
 SELECT Placa,linea,marca,cilindraje
 from vehiculos
-where noMotor = 465 AND placa LIKE 'R%');
+where noMotor = 465 AND placa LIKE 'O%');
 --------------------------Mostrar cuantos lote de produccion hay en el año--------------------
-CREATE OR REPLACE VIEW DetalleDeLotes AS (
-SELECT COUNT(CODIGOINICIO)
+CREATE OR REPLACE VIEW DetalleLotes AS (
+SELECT COUNT(CODIGOINICIO) as codigo
 from LoteProducciones
 where INICIOLOTE BETWEEN TRUNC(SYSDATE,'YEAR')AND ADD_MONTHS(TRUNC(SYSDATE,'YEAR'),12)-1);
-------------hay que revisar--------------------
+---------------------Consultar la parte afectada de un accidente--------------------------------
+CREATE OR REPLACE VIEW PartesAfectadas AS (
+SELECT EXTRACTVALUE(DetalleXML, '/DetalleXML/Informacion/Partesafectada/text()') as detalleXML
+FROM Accidentes 
+where NoAccidente = 0);

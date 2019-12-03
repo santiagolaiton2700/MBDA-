@@ -45,7 +45,7 @@ VALUES
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY'),'<?xml version="1.0" encoding="utf-8"?>
+0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY'),'
     <DetalleXML>
 		<Informacion numeroaccidente= "0" >
 			<Partesafectada>Puerta trasera derecha y puerta delantera izquierda </Partesafectada>
@@ -59,6 +59,7 @@ VALUES
             <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
 		</Informacion>
 	</DetalleXML>');
+
 
 
 INSERT INTO LoteProducciones(CodigoInicio, CodigoFin, InicioLote, FinLote, Descripcion)

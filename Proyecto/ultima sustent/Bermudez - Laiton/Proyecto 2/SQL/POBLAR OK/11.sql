@@ -5855,11 +5855,7 @@ VALUES
 );
 
 /* INSERT QUERY NO: 838 */
-INSERT INTO Polizas(NoPoliza, InicioPoliza, FinPoliza, NoMotor, NoAccidente)
-VALUES
-(
-838, TO_DATE('21/11/2015','DD/MM/YYYY'), TO_DATE('17/11/2018','DD/MM/YYYY'), 1203, 837
-);
+
 
 /* INSERT QUERY NO: 839 */
 INSERT INTO Polizas(NoPoliza, InicioPoliza, FinPoliza, NoMotor, NoAccidente)

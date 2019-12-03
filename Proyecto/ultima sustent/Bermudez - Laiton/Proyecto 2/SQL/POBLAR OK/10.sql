@@ -5860,11 +5860,7 @@ VALUES
 );
 
 /* INSERT QUERY NO: 838 */
-INSERT INTO Vehiculos(NoMotor, Placa, Marca, TiServicio, CodiInicio, CodiFin, Linea, MoCarro, CeConductor, Capacidad, Cilindraje, Combustible)
-VALUES
-(
-1203, 'OWX937', 'MAZDA', 'diplomaticos', 838, 838838, 'I-10', 1958, 52505458, 6, 2000, 'GASOLINA'
-);
+
 
 /* INSERT QUERY NO: 839 */
 INSERT INTO Vehiculos(NoMotor, Placa, Marca, TiServicio, CodiInicio, CodiFin, Linea, MoCarro, CeConductor, Capacidad, Cilindraje, Combustible)

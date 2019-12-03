@@ -4,32 +4,97 @@
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-0, 'CHOQUELATERAL', 'DAﾃODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY'),'');
+0, 'CHOQUELATERAL', 'DANODEPUERTASYVENTANAS', 1000, 100000, TO_DATE('20/12/1998','DD/MM/YYYY'),'
+    <DetalleXML>
+		<Informacion numeroaccidente= "0" >
+			<Partesafectada>Puerta trasera derecha y puerta delantera izquierda </Partesafectada>
+			<Lugar>Centro de Bogota</Lugar>
+			<Hora>2</Hora>
+			<LeyesInfrigidas>no respertar un pare y exceso de velocidad </LeyesInfrigidas>
+			<NumeroHeridos>2</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>');
 
 /* INSERT QUERY NO: 2 */
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-1, 'CHOQUEFRONTAL', 'DAﾃ前DEBOMPERYLUCESDESEGURIDAD', 20000, 100100, TO_DATE('20/12/1998','DD/MM/YYYY'),'');
+1, 'CHOQUEFRONTAL', 'DANODEBOMPERYLUCESDESEGURIDAD', 20000, 100100, TO_DATE('20/12/1998','DD/MM/YYYY'),'
+    <DetalleXML>
+		<Informacion numeroaccidente= "1" >
+			<Partesafectada>Bomper y luces </Partesafectada>
+			<Lugar>Occidente de Bogota</Lugar>
+			<Hora>5 pm</Hora>
+			<LeyesInfrigidas>Otro vehiculo con exceso de velocidad </LeyesInfrigidas>
+			<NumeroHeridos>1</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>');
 
 /* INSERT QUERY NO: 3 */
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-2, 'CHOQUETRASERO', 'DAﾃ前DEBOMPERYLUCESDESEGURIDAD', 39000, 100200, TO_DATE('20/12/1998','DD/MM/YYYY'),'');
+2, 'CHOQUETRASERO', 'DANO DE BOMPER Y LUCES DE SEGURIDAD', 39000, 100200, TO_DATE('20/12/1998','DD/MM/YYYY'),'
+    <DetalleXML>
+		<Informacion numeroaccidente= "2" >
+			<Partesafectada>Bomper y luces </Partesafectada>
+			<Lugar>Oriente de Bogota</Lugar>
+			<Hora>7 pm</Hora>
+			<LeyesInfrigidas>Exceso de velocidad </LeyesInfrigidas>
+			<NumeroHeridos>1</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>No</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>Si</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>');
 
 /* INSERT QUERY NO: 4 */
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-3, 'VOLCAMIENTO', 'DAﾃ前DETECHOYPARABRISAS', 58000, 100300, TO_DATE('20/12/1998','DD/MM/YYYY'),''
+3, 'VOLCAMIENTO', 'DANO DE TECHO Y PARABRISAS', 58000, 100300, TO_DATE('20/12/1998','DD/MM/YYYY'),'
+    <DetalleXML>
+		<Informacion numeroaccidente= "3" >
+			<Partesafectada>Techo y parabrisas </Partesafectada>
+			<Lugar>Centro de Bogota</Lugar>
+			<Hora>8 am</Hora>
+			<LeyesInfrigidas>no respertar un pare  </LeyesInfrigidas>
+			<NumeroHeridos>2</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>Si</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>'
 );
 
 /* INSERT QUERY NO: 5 */
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-4, 'CHOQUELATERAL', 'DAﾃ前DEPUERTASYVENTANAS', 77000, 100400, TO_DATE('20/12/1998','DD/MM/YYYY'),''
+4, 'CHOQUELATERAL', 'DANO DE PUERTAS Y VENTANAS', 77000, 100400, TO_DATE('20/12/1998','DD/MM/YYYY'),'
+    <DetalleXML>
+		<Informacion numeroaccidente= "4" >
+			<Partesafectada>Puerta trasera izquierda y ventana delantera, trasera izquierda </Partesafectada>
+			<Lugar>sur de Bogota</Lugar>
+			<Hora>3 pm</Hora>
+			<LeyesInfrigidas>Exceso de velocidad </LeyesInfrigidas>
+			<NumeroHeridos>2</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>'
 );
 
 /* INSERT QUERY NO: 6 */
