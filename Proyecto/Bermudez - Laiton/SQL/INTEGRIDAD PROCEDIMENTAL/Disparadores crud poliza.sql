@@ -17,13 +17,4 @@ BEGIN
 :NEW.InicioPoliza:=sysdate;
 END;
 /
-------------------------------------------Lo unico que se puede modificar es la fecha del final de la poliza-----------------------
-CREATE OR REPLACE TRIGGER TR_POLIZAS_FECHAFIN
-BEFORE UPDATE OF FinPoliza
-ON POLIZAS 
-BEGIN
-RAISE_APPLICATION_ERROR(-20001,'Solo se puede modificar la fecha fin de la poliza');
-END;
-/
-
 
