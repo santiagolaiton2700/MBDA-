@@ -1,69 +1,46 @@
-/* INSERT QUERY NO: 1 */
-INSERT INTO Caracteristicas(id)
+
+EXECUTE PC_CLASEVEHICULOS.AD_CARACTERISTICAS(4000);
+
+EXECUTE PC_CLASEVEHICULOS.AD_FRENOS('no', 'si', 4000);
+
+
+EXECUTE PC_CLASEVEHICULOS.AD_AIRBAGS('no', 'si', 'no', 'si', 'no', 'si', 4000);
+
+EXECUTE PC_CLASEVEHICULOS.AD_CONTROLES('si', 4000);
+
+
+EXECUTE PC_ABOGADOS.AD_ABOGADOS(4001, 'TR100211', 'Chuck', 'Imm', 9858819875, 'cimFFHHHm0@cloudflare.com');
+EXECUTE PC_ABOGADOS.MOD_ABOGADOS(4001,3138912520,'HERNANHHDO@HOTMAIL.COM');
+
+
+INSERT INTO Accidentes( Detalle, DetalleEspe, ValorArreglo, IdAbogado,DetalleXML)
 VALUES
-(
-1000
-);
+( 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 2000, 4001,'
+    <DetalleXML>
+		<Informacion numeroaccidente= "0" >
+			<Partesafectada>Puerta trasera derecha y puerta delantera izquierda </Partesafectada>
+			<Lugar>Centro de Bogota</Lugar>
+			<Hora>2</Hora>
+			<LeyesInfrigidas>no respertar un pare y exceso de velocidad </LeyesInfrigidas>
+			<NumeroHeridos>2</NumeroHeridos>
+			<NumeroMuertos>0</NumeroMuertos>
+			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
+            <ChoquecontraPeaton>No</ChoquecontraPeaton>
+            <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
+		</Informacion>
+	</DetalleXML>');
+EXECUTE PC_LOTESPRODUCCIONES.AD_LOTEPRODUCCIONES(4000, 11, TO_DATE('4/2/1998','DD/MM/YYYY'), TO_DATE('4/2/2000','DD/MM/YYYY'), 'Coupe');
 
 
-
-/* INSERT QUERY NO: 1 */
-INSERT INTO Frenos(FrenoAbsTrasero, FrenoAbsDelantero, IdCarac)
-VALUES
-(
-'no', 'si', 1000
-);
-
-
-/* INSERT QUERY NO: 1 */
-INSERT INTO Airbags(AirbagFrontal, AirbagLateral, AirbagCortina, AirbagPosterior, AirbagRodilla, AirbagCentral, IdCarac)
-VALUES
-(
-'no', 'si', 'no', 'si', 'no', 'si', 1000
-);
-
-
-
-/* CREATE TABLE */
-/* INSERT QUERY NO: 1 */
-INSERT INTO Controles(ControlEstabilidad, IdCarac)
-VALUES
-(
-'si', 1000
-);
-
-/
-BEGIN
-PC_ABOGADOS.AD_ABOGADOS(100000, 'TR100000', 'Chuck', 'Imm', 8858189875, 'cimm0@cloudflare.com');
-END;
-/
-BEGIN
-PC_ACCIDENTES.AD_ACCIDENTES('CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 100000,'');
-END;
-/
-
-BEGIN
-PC_LOTESPRODUCCIONES.AD_LOTEPRODUCCION(1, 11, TO_DATE('4/2/1998','DD/MM/YYYY'), TO_DATE('4/2/2000','DD/MM/YYYY'), 'Coupe');
-END;
-
-/* INSERT QUERY NO: 1 */
 INSERT INTO Conductores(Cedula, Nombre, Apellido, TiLicencia, NoLicencia, Rh, FechaNacimiento, LugarNacimiento, Correo, Telefono, Pasivo, Activo)
 VALUES
-(
-52504621, 'Helaina', 'Date', 'C1', 'N10151', 'O+', TO_DATE('4/5/1985','DD/MM/YYYY'), 'BOGOTA', 'CORREO151@gmail.com', 4036669125, 10123, 20123
-);
+(52512661, 'Helaina', 'Date', 'C1', 'N10151', 'O+', TO_DATE('4/5/1985','DD/MM/YYYY'), 'BOGOTA', 'CORROODDEO151@gmail.com', 4078669125, 10123, 20123);
 
+EXECUTE pc_vehiculos.mod_conductores(38504621,'CAMILOCOOUBIDES@HOTMAIL.COM',3138189604);
+EXECUTE PC_CLASEVEHICULOS.AD_CLASEVEHICULOS('XANA', 1920, 4000);
 
-BEGIN
-PC_CLASEVEHICULOS.AD_CLASEVEHICULOS('aveo', 1920, 1000);
-END;
+EXECUTE PC_VEHICULOS.AD_VEHICULOS(2000, 'IZW323', 'CHEVROLET', 'publico', 4000, 11, 'aveo', 1920, 52504621, 4, 2000, 'GASOLINA');
 
 
 
-BEGIN
-PC_VEHICULOS.AD_VEHICULOS(366, 'OWX100', 'CHEVROLET', 'publico', 1, 11, 'aveo', 1920, 52504621, 4, 1000, 'GASOLINA');
-END;
-
-BEGIN
-PC_POLIZAS.AD_POLIZAS(TO_DATE('13/11/2018','DD/MM/YYYY'), 366, 0);
-END;
+EXECUTE PC_POLIZAS.AD_POLIZAS(TO_DATE('13/12/2021','DD/MM/YYYY'), 2000, 1004);

@@ -6,22 +6,6 @@ BEGIN
 RAISE_APPLICATION_ERROR(20009,'Los abogados no se puede borrar');
 END;
 /
-----------------------------Los Vehiculos no se pueden borrar-------------------------------
-CREATE OR REPLACE TRIGGER TR_ELIMINAR_VEHICULOS
-BEFORE DELETE 
-ON VEHICULOS
-BEGIN
-RAISE_APPLICATION_ERROR(20010,'Los vehiculos no se puede borrar');
-END;
-/
-----------------------------Los conductores no se pueden borrar------------------------------
-CREATE OR REPLACE TRIGGER TR_ELIMINAR_conductores
-BEFORE DELETE 
-ON CONDUCTORES
-BEGIN
-RAISE_APPLICATION_ERROR(-20011,'Los conductores no se pueden borrar');
-END;
-/
 ----------------------------Los lotes de producciones no se pueden borrar------------------------------
 CREATE OR REPLACE TRIGGER TR_ELIMINAR_LOTES
 BEFORE DELETE 

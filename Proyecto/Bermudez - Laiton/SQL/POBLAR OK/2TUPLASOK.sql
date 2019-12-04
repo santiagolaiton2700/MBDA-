@@ -1,0 +1,5 @@
+----------------TUPLA OK---------------------------------------------------------------------------------
+INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML) VALUES(0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 300000, TO_DATE('20/12/1998','DD/MM/YYYY'),'');
+INSERT INTO LoteProducciones(CodigoInicio, CodigoFin, InicioLote, FinLote, Descripcion)VALUES(3001,3002 , TO_DATE('4/2/1998','DD/MM/YYYY'), TO_DATE('4/2/2000','DD/MM/YYYY'), 'Coupe');
+INSERT INTO Conductores(Cedula, Nombre, Apellido, TiLicencia, NoLicencia, Rh, FechaNacimiento, LugarNacimiento, Correo, Telefono, Pasivo, Activo)VALUES(52525253, 'Helaina', 'Date', 'C1', 'N10151', 'O+', TO_DATE('4/5/1985','DD/MM/YYYY'), 'BOGOTA', 'CORREDDDEEO151@gmail.com', 6956125491, 10123, 20123);
+INSERT INTO Polizas(NoPoliza, InicioPoliza, FinPoliza, NoMotor, NoAccidente)VALUES(3001, TO_DATE('13/11/2015','DD/MM/YYYY'), TO_DATE('13/11/2020','DD/MM/YYYY'), 3000, 1002);

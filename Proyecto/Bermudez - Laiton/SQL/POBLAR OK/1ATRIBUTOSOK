@@ -45,20 +45,7 @@ VALUES
 INSERT INTO Accidentes(NoAccidente, Detalle, DetalleEspe, ValorArreglo, IdAbogado, Fecha, DetalleXML)
 VALUES
 (
-0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 300000, TO_DATE('20/12/1998','DD/MM/YYYY'),'
-    <DetalleXML>
-		<Informacion numeroaccidente= "0" >
-			<Partesafectada>Puerta trasera derecha y puerta delantera izquierda </Partesafectada>
-			<Lugar>Centro de Bogota</Lugar>
-			<Hora>2</Hora>
-			<LeyesInfrigidas>no respertar un pare y exceso de velocidad </LeyesInfrigidas>
-			<NumeroHeridos>2</NumeroHeridos>
-			<NumeroMuertos>0</NumeroMuertos>
-			<ChoquecontraVehiculo>Si</ChoquecontraVehiculo>
-            <ChoquecontraPeaton>No</ChoquecontraPeaton>
-            <ChoquecontraEstructuras>No</ChoquecontraEstructuras>
-		</Informacion>
-	</DetalleXML>');
+0, 'CHOQUELATERAL', 'DAÃODEPUERTASYVENTANAS', 1000, 300000, TO_DATE('20/12/1998','DD/MM/YYYY'),'');
 
 
 
@@ -95,5 +82,5 @@ VALUES
 INSERT INTO Polizas(NoPoliza, InicioPoliza, FinPoliza, NoMotor, NoAccidente)
 VALUES
 (
-3000, TO_DATE('13/11/2015','DD/MM/YYYY'), TO_DATE('13/11/2020','DD/MM/YYYY'), 3000, 1002
+3000, TO_DATE('13/11/2015','DD/MM/YYYY'), TO_DATE('13/11/2020','DD/MM/YYYY'), 3000, 1001
 );

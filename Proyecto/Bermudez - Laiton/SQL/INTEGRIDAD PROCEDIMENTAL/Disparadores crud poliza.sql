@@ -25,13 +25,5 @@ BEGIN
 RAISE_APPLICATION_ERROR(-20001,'Solo se puede modificar la fecha fin de la poliza');
 END;
 /
-------------------------------------------Las polizas no se pueden eliminar------------------------------------------------------
-CREATE OR REPLACE TRIGGER TR_POLIZAS_ELIMINACION
-BEFORE DELETE
-ON POLIZAS
-BEGIN 
-RAISE_APPLICATION_ERROR(-20000,'No se puede eliminar la poliza');
-END;
-/
 
 
